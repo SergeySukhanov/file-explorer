@@ -6,8 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "TextFiles")
 public class File {
     @Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    String id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
 
     private String parentFolderId;
 

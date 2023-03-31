@@ -15,6 +15,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String email;
     private String firstName;
     private String lastName;
@@ -62,6 +63,10 @@ public class User implements UserDetails {
 
     //getter-setter
 
+
+    public Long getId() {
+        return id;
+    }
 
     public String getEmail() {
         return email;

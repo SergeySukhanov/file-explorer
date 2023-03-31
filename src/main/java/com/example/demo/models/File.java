@@ -9,6 +9,8 @@ public class File {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private String id;
 
+    //TODO Setup ForeignKey with OneToMany Relationship:
+        //-Do Research beforehand
     private String parentFolderId;
 
     private String name;

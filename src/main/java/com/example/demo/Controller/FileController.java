@@ -1,15 +1,14 @@
 package com.example.demo.Controller;
 
-import com.example.demo.datatypes.File;
-import com.example.demo.datatypes.Folder;
-import com.example.demo.datatypes.InformationFile;
+import com.example.demo.models.File;
+import com.example.demo.models.Folder;
+import com.example.demo.models.InformationFile;
 import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 
 @RestController
@@ -32,7 +31,7 @@ public class FileController {
 
     @GetMapping("/file")
     public ArrayList<InformationFile> getAllFiles(){
-        ArrayList<InformationFile> list = new ArrayList<InformationFile>();
+        ArrayList<InformationFile> list = new ArrayList<>();
         for(File file:fileRepository.findAll()){
             list.add(new InformationFile(file));
         }

@@ -1,4 +1,4 @@
-package com.example.demo.datatypes;
+package com.example.demo.models;
 
 import jakarta.persistence.*;
 
@@ -49,7 +49,7 @@ public class File {
 
 
     public void setId(String id) {
-        id = id;
+        this.id = id;
     }
 
     public String getId() {

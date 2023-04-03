@@ -11,6 +11,8 @@ public class InformationFile {
     private boolean isFolder;
     private String text;
 
+
+    //TODO rename InformationFile to something like FileResponse and maybe change package
     public InformationFile(){
     }
 

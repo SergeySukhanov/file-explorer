@@ -2,6 +2,8 @@ package com.example.demo.models;
 
 import jakarta.persistence.*;
 
+//TODO refactor code using lombok
+
 @Entity(name="File")
 @Table(name = "TextFiles")
 public class File {

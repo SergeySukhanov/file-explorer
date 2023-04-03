@@ -3,6 +3,7 @@ package com.example.demo.models;
 import com.example.demo.enums.Visibility;
 import jakarta.persistence.*;
 
+//TODO refactor code using lombok
 
 @Entity
 @Table(name = "workspaces")
@@ -14,7 +15,7 @@ public class Workspace {
     private Long id;
 
     //TODO Setup ForeignKey with OneToMany Relationship:
-        //-Do Research beforehand
+    //-Do Research beforehand
 
     private Long userId;
 
@@ -34,7 +35,6 @@ public class Workspace {
         this.userId = userId;
         this.visibility = visibility;
     }
-
 
 
     //getter-setter

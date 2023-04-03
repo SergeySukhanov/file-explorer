@@ -27,4 +27,10 @@ public class AuthenticationController {
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest request) {
         return ResponseEntity.ok(authenticationService.authenticate(request));
     }
+
+    @PostMapping("/logout")
+    public ResponseEntity logout(@RequestBody AuthenticationRequest request) {
+        //TODO How to invalidate a JWT?
+        return ResponseEntity.internalServerError().build();
+    }
 }

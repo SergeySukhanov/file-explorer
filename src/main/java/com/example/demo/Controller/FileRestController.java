@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api")
-public class FileController {
+public class FileRestController {
 
     @Autowired
     FileRepository fileRepository;

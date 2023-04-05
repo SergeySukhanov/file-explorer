@@ -2,7 +2,7 @@ package com.example.demo.Controller;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Folder;
-import com.example.demo.models.InformationFile;
+import com.example.demo.requestResponseModels.FileRequestResponse;
 import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.FolderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +21,22 @@ public class FileRestController {
     FolderRepository folderRepository;
 
     @PostMapping("/file")
-    public void createFile(@RequestBody InformationFile informationFile){
-        if(informationFile.isFolder()){
-            folderRepository.save(new Folder(informationFile));
+    public void createFile(@RequestBody FileRequestResponse fileRequest){
+        if(fileRequest.isFolder()){
+            folderRepository.save(new Folder(fileRequest));
         }else{
-            fileRepository.save(new File(informationFile));
+            fileRepository.save(new File(fileRequest));
         }
     }
 
     @GetMapping("/file")
-    public ArrayList<InformationFile> getAllFiles(){
-        ArrayList<InformationFile> list = new ArrayList<>();
+    public ArrayList<FileRequestResponse> getAllFiles(){
+        ArrayList<FileRequestResponse> list = new ArrayList<>();
         for(File file:fileRepository.findAll()){
-            list.add(new InformationFile(file));
+            list.add(new FileRequestResponse(file));
         }
         for(Folder folder : folderRepository.findAll()){
-            list.add(new InformationFile(folder));
+            list.add(new FileRequestResponse(folder));
         }
         return list;
     }

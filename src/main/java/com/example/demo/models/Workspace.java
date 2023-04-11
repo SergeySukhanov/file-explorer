@@ -28,12 +28,14 @@ public class Workspace {
     )
     private Long id;
 
-    //TODO Setup ForeignKey with OneToMany Relationship:
-    //-Do Research beforehand
-    @Column(
-            name = "user_id"
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
     )
-    private Long userId;
+    private User userId;
+
 
     @Column(
             name = "visibility"

@@ -5,7 +5,10 @@ import com.example.demo.models.Folder;
 import com.example.demo.requestResponseModels.FileRequestResponse;
 import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.FolderRepository;
+import com.example.demo.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -20,17 +23,17 @@ public class FileRestController {
     @Autowired
     FolderRepository folderRepository;
 
+    @Autowired
+    FileService fileService;
+
     @PostMapping("/file")
-    public void createFile(@RequestBody FileRequestResponse fileRequest){
-        if(fileRequest.isFolder()){
-            folderRepository.save(new Folder(fileRequest));
-        }else{
-            fileRepository.save(new File(fileRequest));
-        }
+    public ResponseEntity createFile(@RequestBody FileRequestResponse fileRequest, Authentication authentication){
+        return fileService.createFileOrFolder(fileRequest, authentication.getName());
+//
     }
 
     @GetMapping("/file")
-    public ArrayList<FileRequestResponse> getAllFiles(){
+    public ResponseEntity getAllFiles(Authentication authentication){
         ArrayList<FileRequestResponse> list = new ArrayList<>();
         for(File file:fileRepository.findAll()){
             list.add(new FileRequestResponse(file));
@@ -38,7 +41,7 @@ public class FileRestController {
         for(Folder folder : folderRepository.findAll()){
             list.add(new FileRequestResponse(folder));
         }
-        return list;
+        return ResponseEntity.ok(list);
     }
 
 }

@@ -20,17 +20,20 @@ public class Folder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(
-            name = "workspace_id"
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "workspace_id",
+            referencedColumnName = "id"
     )
-    private Long workspaceId;
+    private Workspace workspaceId;
 
-    //TODO Setup ForeignKey with OneToMany Relationship:
-    //-Do Research beforehand
-    @Column(
-            name = "parent_folder_id"
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "parent_folder_id",
+            referencedColumnName = "id"
     )
-    private Long parentFolderId;
+    private Folder parentFolderId;
 
     @Column(
             name = "name",
@@ -56,9 +59,9 @@ public class Folder {
     @Deprecated
     public Folder(FileRequestResponse infoFile){
         id = 0L;
-        parentFolderId = infoFile.getFolderId();
+//        parentFolderId = infoFile.getFolderId();
         name = infoFile.getName();
-        workspaceId = infoFile.getWorkspaceId();
+//        workspaceId = infoFile.getWorkspaceId();
     }
 
 //    public Folder(FileRequest request){

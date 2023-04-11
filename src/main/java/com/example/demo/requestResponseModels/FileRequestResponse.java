@@ -3,10 +3,13 @@ package com.example.demo.requestResponseModels;
 
 import com.example.demo.models.File;
 import com.example.demo.models.Folder;
+import com.example.demo.models.Workspace;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.web.server.ResponseStatusException;
 
 
 @Data
@@ -29,8 +32,8 @@ public class FileRequestResponse {
     public FileRequestResponse(File file){
         id = file.getId();
         name = file.getName();
-        folderId = file.getParentFolderId();
-        workspaceId = file.getWorkspaceId();
+        folderId = file.getParentFolderId().getId();
+        workspaceId = file.getWorkspaceId().getId();
         isFolder = false;
         text = file.getContent();
     }
@@ -38,8 +41,8 @@ public class FileRequestResponse {
     public FileRequestResponse(Folder folder){
         id = folder.getId();
         name = folder.getName();
-        folderId = folder.getParentFolderId();
-        workspaceId = folder.getWorkspaceId();
+        folderId = (folder.getParentFolderId()!=null)?folder.getParentFolderId().getId():null;
+        workspaceId = folder.getWorkspaceId().getId();
         isFolder = true;
         text = null;
     }

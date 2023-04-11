@@ -23,17 +23,22 @@ public class File {
     )
     private Long id;
 
-    //TODO Foreign Key
-    @Column(
-            name = "workspace_id"
-    )
-    private Long workspaceId;
 
-    //TODO Foreign Key
-    @Column(
-            name = "parent_folder_id"
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "workspace_id",
+            referencedColumnName = "id"
     )
-    private Long parentFolderId;
+    private Workspace workspaceId;
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "parent_folder_id",
+            referencedColumnName = "id"
+    )
+    private Folder parentFolderId;
+
 
     @Column(
             name = "file_name",
@@ -71,12 +76,13 @@ public class File {
 //        this.content = content;
 //    }
 //
+    @Deprecated
     public File(FileRequestResponse infoFile){
         id = 0L;
-        parentFolderId = infoFile.getFolderId();
+        //parentFolderId = infoFile.getFolderId();
         name = infoFile.getName();
         content = infoFile.getText();
-        workspaceId = infoFile.getWorkspaceId();
+//        workspaceId = infoFile.getWorkspaceId();
     }
 
     //getter-setter

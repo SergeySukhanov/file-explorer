@@ -28,6 +28,11 @@ public class Workspace {
     )
     private Long id;
 
+    @Column(
+            name = "name"
+    )
+    private String name;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(
@@ -40,6 +45,7 @@ public class Workspace {
     @Column(
             name = "visibility"
     )
+    @Enumerated(EnumType.STRING)
     private Visibility visibility;
 
 

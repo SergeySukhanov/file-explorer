@@ -10,5 +10,7 @@ public interface WorkspaceRepository extends CrudRepository<Workspace, Long> {
     Optional<Workspace> findByUserId(User userId);
     Optional<Workspace> findByUserIdAndName(User userId, String name);
 
+    Optional<Workspace> findByIdAndUserId(Long id, User userId);
+
     Iterable<Workspace> findAllByUserId(User userId);
 }

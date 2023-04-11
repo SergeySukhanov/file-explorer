@@ -5,6 +5,7 @@ import com.example.demo.models.User;
 import com.example.demo.models.Workspace;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.WorkspaceRepository;
+import com.example.demo.requestResponseModels.FileRequestResponse;
 import com.example.demo.requestResponseModels.WorkspaceRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,8 @@ public class WorkspaceService {
     WorkspaceRepository workspaceRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    FileService fileService;
 
 
     public ResponseEntity createWorkspace(WorkspaceRequest request, String userName) {
@@ -45,6 +48,9 @@ public class WorkspaceService {
 
         //Return the data of the saved workspace
         Workspace workspace = workspaceRepository.findByUserIdAndName(user.get(),request.getName()).get();
+
+        fileService.createFolder(workspace, null, "Home");
+
         return ResponseEntity.ok(new WorkspaceRequest(workspace));
     }
 

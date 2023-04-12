@@ -14,8 +14,9 @@ public interface FolderRepository extends CrudRepository<Folder, Long> {
 
     Optional<Folder> findFolderByIdAndWorkspaceId(Long id, Workspace workspaceId);
 
+    Iterable<Folder> findAllByWorkspaceId(Workspace workspaceId);
 
-
+    Iterable<Folder> findAllByParentFolderId(Folder parentFolderId);
 
     Optional<Folder> findByName(String name);
 }

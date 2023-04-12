@@ -7,11 +7,12 @@ import com.example.demo.repository.FileRepository;
 import com.example.demo.repository.FolderRepository;
 import com.example.demo.repository.WorkspaceRepository;
 import com.example.demo.requestResponseModels.FileRequestResponse;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -84,5 +85,59 @@ public class FileService {
                 .build());
 
         return ResponseEntity.ok(new FileRequestResponse(fileRepository.findFileByNameAndWorkspaceIdAndParentFolderId(name,workspace, parentFolder).get()));
+    }
+
+    public List<FileRequestResponse> getAllFilesInWorkspace(String workspaceName, String userName) {
+        //authorize the user and get the WorkspaceId at the same time
+        Workspace workspace = userInformationService.authorizeUserForWorkspace(workspaceName, userName);
+        if(workspace==null)
+            return null;
+
+        List<FileRequestResponse> allFiles = new ArrayList<FileRequestResponse>();
+
+        for(Folder folder: folderRepository.findAllByWorkspaceId(workspace)){
+            allFiles.add(new FileRequestResponse(folder));
+        }
+        for(File file: fileRepository.findAllByWorkspaceId(workspace)){
+            allFiles.add(new FileRequestResponse(file));
+        }
+        return allFiles;
+    }
+
+    public List<FileRequestResponse> getChildrenOfFolder(Long folderId, String userName) {
+        Optional<Folder> parentFolder = folderRepository.findById(folderId);
+
+        //Is there a folder with this id?
+        if(parentFolder.isEmpty())
+            return null;
+
+        //Does the user have access to the workspace this folder belongs to?
+        Workspace workspace = userInformationService.authorizeUserForWorkspace(parentFolder.get().getWorkspaceId(), userName);
+        if(workspace==null)
+            return null;
+
+        List<FileRequestResponse> childrenOfFolder = new ArrayList<FileRequestResponse>();
+        for(Folder folder: folderRepository.findAllByParentFolderId(parentFolder.get())){
+            childrenOfFolder.add(new FileRequestResponse(folder));
+        }
+        for(File file : fileRepository.findAllByParentFolderId(parentFolder.get())){
+            childrenOfFolder.add(new FileRequestResponse(file));
+        }
+        return childrenOfFolder;
+
+    }
+
+    public FileRequestResponse getFileInformation(Long fileId, String userName) {
+        Optional<File> file = fileRepository.findById(fileId);
+        //Is there a file with this id?
+        if(file.isEmpty())
+            return null;
+
+        //Does the user have access to the workspace this file belongs to?
+        Workspace workspace = userInformationService.authorizeUserForWorkspace(file.get().getWorkspaceId(),userName);
+        if(workspace == null)
+            return null;
+
+        return new FileRequestResponse(file.get());
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -44,6 +45,37 @@ public class FileRestController {
             list.add(new FileRequestResponse(folder));
         }
         return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/files/{workspaceName}")
+    public ResponseEntity getAllFilesInWorkspace(Authentication authentication, @PathVariable String workspaceName){
+        List<FileRequestResponse> list = fileService.getAllFilesInWorkspace(workspaceName, authentication.getName());
+        if(list == null)
+            return ResponseEntity.badRequest().body("There is either no Workspace with this name or you do not have permission to access it!");
+        else
+            return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/folder/{folderId}")
+    public ResponseEntity getChildrenOfFolder(Authentication authentication, @PathVariable Long folderId){
+        List<FileRequestResponse> list = fileService.getChildrenOfFolder(folderId, authentication.getName());
+        if(list == null)
+            return ResponseEntity.badRequest().body(
+                    "There is either no folder with this name or you do not have permission to access it!"
+            );
+        else
+            return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/file/{fileId}")
+    public ResponseEntity getFileInformation(Authentication authentication, @PathVariable Long fileId){
+        FileRequestResponse file = fileService.getFileInformation(fileId, authentication.getName());
+        if(file == null)
+            return ResponseEntity.badRequest().body(
+                    "There is either no file with this name or you do not have permission to access it!"
+            );
+        else
+            return ResponseEntity.ok(file);
     }
 
 }

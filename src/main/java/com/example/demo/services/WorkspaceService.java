@@ -6,6 +6,7 @@ import com.example.demo.models.Workspace;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.WorkspaceRepository;
 import com.example.demo.requestResponseModels.WorkspaceRequestResponse;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,7 @@ public class WorkspaceService {
         return list;
     }
 
+    //TODO return the workspace or a null pointer, but not a ResponseEntity
     public ResponseEntity getWorkspaceByName(String workspaceName, String userName) {
         User user = userRepository.findByEmail(userName).get();
         Optional<Workspace> workspace = workspaceRepository.findByUserIdAndName(user,workspaceName);
@@ -71,4 +73,6 @@ public class WorkspaceService {
         else
             return ResponseEntity.badRequest().body("For this user there exists no workspace with this name!");
     }
+
+
 }

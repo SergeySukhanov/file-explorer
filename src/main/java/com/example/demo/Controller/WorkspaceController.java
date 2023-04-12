@@ -1,6 +1,6 @@
 package com.example.demo.Controller;
 
-import com.example.demo.requestResponseModels.WorkspaceRequest;
+import com.example.demo.requestResponseModels.WorkspaceRequestResponse;
 import com.example.demo.services.WorkspaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +17,13 @@ public class WorkspaceController {
     WorkspaceService workspaceService;
 
     @PostMapping("/workspace")
-    public ResponseEntity createWorkspace(@RequestBody WorkspaceRequest request, Authentication authentication){
+    public ResponseEntity createWorkspace(@RequestBody WorkspaceRequestResponse request, Authentication authentication){
         return workspaceService.createWorkspace(request, authentication.getName());
     }
 
     @GetMapping("/workspace")
     public ResponseEntity getAllWorkspaces(Authentication authentication){
-        return workspaceService.getAllWorkspaces(authentication.getName());
+        return ResponseEntity.ok(workspaceService.getAllWorkspaces(authentication.getName()));
     }
 
     @GetMapping("/workspace/{workspaceName}")

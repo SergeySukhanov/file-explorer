@@ -12,14 +12,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkspaceRequest {
-    private Long id;
+public class WorkspaceRequestResponse {
+    private Long workspaceId;
     private Long userId;
     private String name;
     private Visibility visibility;
 
-    public WorkspaceRequest(Workspace workspace){
-        id = workspace.getId();
+    public WorkspaceRequestResponse(Workspace workspace){
+        workspaceId = workspace.getId();
         userId = workspace.getUserId().getId();
         name = workspace.getName();
         visibility = workspace.getVisibility();

@@ -5,13 +5,11 @@ import com.example.demo.models.User;
 import com.example.demo.models.Workspace;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.repository.WorkspaceRepository;
-import com.example.demo.requestResponseModels.FileRequestResponse;
-import com.example.demo.requestResponseModels.WorkspaceRequest;
+import com.example.demo.requestResponseModels.WorkspaceRequestResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +25,7 @@ public class WorkspaceService {
     FileService fileService;
 
 
-    public ResponseEntity createWorkspace(WorkspaceRequest request, String userName) {
+    public ResponseEntity createWorkspace(WorkspaceRequestResponse request, String userName) {
         Optional<User> user = userRepository.findByEmail(userName);
         //Does a user with this id exist?
         if(user.isEmpty()){
@@ -51,25 +49,25 @@ public class WorkspaceService {
 
         fileService.createFolder(workspace, null, "Home");
 
-        return ResponseEntity.ok(new WorkspaceRequest(workspace));
+        return ResponseEntity.ok(new WorkspaceRequestResponse(workspace));
     }
 
 
-    public ResponseEntity getAllWorkspaces(String userName) {
+    public List<WorkspaceRequestResponse> getAllWorkspaces(String userName) {
         Optional<User> user = userRepository.findByEmail(userName);
 
-        List<WorkspaceRequest> list = new ArrayList();
+        List<WorkspaceRequestResponse> list = new ArrayList();
         for(Workspace workspace: workspaceRepository.findAllByUserId(user.get())){
-            list.add(new WorkspaceRequest(workspace));
+            list.add(new WorkspaceRequestResponse(workspace));
         }
-        return ResponseEntity.ok(list);
+        return list;
     }
 
     public ResponseEntity getWorkspaceByName(String workspaceName, String userName) {
         User user = userRepository.findByEmail(userName).get();
         Optional<Workspace> workspace = workspaceRepository.findByUserIdAndName(user,workspaceName);
         if(workspace.isPresent())
-            return ResponseEntity.ok(new WorkspaceRequest(workspace.get()));
+            return ResponseEntity.ok(new WorkspaceRequestResponse(workspace.get()));
         else
             return ResponseEntity.badRequest().body("For this user there exists no workspace with this name!");
     }

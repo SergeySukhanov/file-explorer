@@ -32,7 +32,9 @@ public class FileRestController {
 //
     }
 
-    @GetMapping("/file")
+
+    //TODO this endpoint should be changed, so that it only returns the Files and Folders connected to the current user
+    @GetMapping("/files")
     public ResponseEntity getAllFiles(Authentication authentication){
         ArrayList<FileRequestResponse> list = new ArrayList<>();
         for(File file:fileRepository.findAll()){
